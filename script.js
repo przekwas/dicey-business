@@ -4,31 +4,51 @@ let dieArray = [];
 
 class Die {
     constructor() {
-        //property
+        //one class die property
         this.value;
         //auto rolls the dice for a value
         this.roll();
-        //sets up the div w/ class dice, its tag as an h1, and setting the div with an updating id number
-        let diceDiv = $("<div class=dice></div>");
+        //sets up the div w/ class dice containing an h1, and setting the div with an updating id number
+        this.div = $("<div class=dice></div>");
+        this.h1 = $("<h1></h1>");
         let idNumber = $(".dice").length;
-        let diceTag = $("<h1></h1>");
-        //adds the dice div to the container, counts its id, and places the tag as its rolled value
-        diceContainer.append(diceDiv);
-        $(diceDiv).attr("id", idNumber);
-        $(diceDiv).append(diceTag);
-        diceTag.append(this.value);
-
+        this.div.attr("id", idNumber);
+        this.div.append(this.h1);
+        diceContainer.append(this.div);
+        this.h1.text(this.value);
+        //makes the die clickable to reroll individually
+        this.div.click(() => {
+            this.roll();
+            this.h1.text(this.value);
+        })
+        //makes the die remove themselves when dbl clicked
+        this.div.dblclick(() => {
+            this.div.remove();
+            dieArray.splice(idNumber, 1);
+        })
     }
     roll() {
         this.value = Math.floor((Math.random() * 6) + 1);
     }
+
 }
 
+//runs through the array of dice and adds the sum of its .value property
+function sumDice() {
+    let total = 0;
+    for (let i = 0; i < dieArray.length; i++) {
+        total += dieArray[i].value;
+    }
+    alert(`Total sum of the die on page is: ${total}`);
+};
+
+//click button to make new die and add them to a global array
 $("#generate-die").click(function () {
     let d = new Die();
     dieArray.push(d);
 });
 
+//roll the die and replace their h1 with their new rolled value
 $("#roll-die").click(function () {
     for (let i = 0; i < dieArray.length; i++) {
         dieArray[i].roll();
@@ -36,15 +56,6 @@ $("#roll-die").click(function () {
     }
 });
 
-    // //gives each div with class box a blank h1 element named idTag w/ style
-   // square.appendChild(idTag);
-    // let idNumber = document.createTextNode(square.id);
-
-    // //slaps the box to the page
-    // body.appendChild(square);
-
-    // //click button to make a box
-    // squareButton.addEventListener("click", function () {
-    //     squareAdder();
-    // })
+//button to add all the dice on screen
+$("#sum-die").click(sumDice);
 
