@@ -1,6 +1,6 @@
 let diceContainer = $("#die-container");
 let dieArray = [];
-
+let idNumber = 0;
 
 class Die {
     constructor() {
@@ -11,8 +11,8 @@ class Die {
         //sets up the div w/ class dice containing an h1, and setting the div with an updating id number
         this.div = $("<div class=dice></div>");
         this.h1 = $("<h1></h1>");
-        let idNumber = $(".dice").length;
-        this.div.attr("id", idNumber);
+        this.id = idNumber;
+        this.div.attr("id", this.id);
         this.div.append(this.h1);
         diceContainer.append(this.div);
         this.h1.text(this.value);
@@ -23,12 +23,18 @@ class Die {
         })
         //makes the die remove themselves when dbl clicked
         this.div.dblclick(() => {
-            this.div.remove();
-            dieArray.splice(idNumber, 1);
+            this.removeDie();
         })
     }
     roll() {
         this.value = Math.floor((Math.random() * 6) + 1);
+    }
+
+    removeDie() {
+        $(`#${this.id}`).remove();
+        let index = dieArray.findIndex(dice => dice.id === this.id)
+        dieArray.splice(index, 1);
+        console.log(index);
     }
 
 }
@@ -46,6 +52,7 @@ function sumDice() {
 $("#generate-die").click(function () {
     let d = new Die();
     dieArray.push(d);
+    idNumber++;
 });
 
 //roll the die and replace their h1 with their new rolled value

@@ -7,7 +7,7 @@ button {
 .dice {
     width: 5em;
     height: 5em;
-    border: 2px solid black;
+    border: 5px solid black;
     border-radius: 1.25em;
     margin: 1em;
     float: left;
