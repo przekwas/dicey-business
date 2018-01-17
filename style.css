@@ -5,12 +5,13 @@ button {
 }
 
 .dice {
-    width: 5em;
-    height: 5em;
-    border: 5px solid black;
-    border-radius: 1.25em;
-    margin: 1em;
+    width: auto;
+    height: auto;
+    /* border: 5px solid black;
+    border-radius: 1.25em; */
+    /* margin: 0.5em; */
     float: left;
-    text-align: center;
+    /* text-align: center; */
+    font-size: 10em;
 }
 

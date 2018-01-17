@@ -13,30 +13,54 @@ class Die {
         this.h1 = $("<h1></h1>");
         this.id = idNumber;
         this.div.attr("id", this.id);
-        this.div.append(this.h1);
+        this.div.append(this.dieFace());
         diceContainer.append(this.div);
-        this.h1.text(this.value);
+        // this.h1.text(this.value);
         //makes the die clickable to reroll individually
         this.div.click(() => {
             this.roll();
-            this.h1.text(this.value);
+            this.div.empty().html(this.dieFace());
         })
         //makes the die remove themselves when dbl clicked
         this.div.dblclick(() => {
             this.removeDie();
         })
     }
+    
+    //rolls new values for the dice 1-6
     roll() {
         this.value = Math.floor((Math.random() * 6) + 1);
     }
 
+    //removes a die and removes its index from the global array
     removeDie() {
         $(`#${this.id}`).remove();
         let index = dieArray.findIndex(dice => dice.id === this.id)
         dieArray.splice(index, 1);
-        console.log(index);
     }
 
+    //makes each value of the dice switch to the unicode die face
+    dieFace(unicode) {
+        if (this.value === 1) {
+            unicode = '&#9856;';
+            return unicode;
+        } else if (this.value === 2) {
+            unicode = '&#9857;';
+            return unicode;
+        } else if (this.value === 3) {
+            unicode = '&#9858;';
+            return unicode;
+        } else if (this.value === 4) {
+            unicode = '&#9859;';
+            return unicode;
+        } else if (this.value === 5) {
+            unicode = '&#9860;';
+            return unicode;
+        } else if (this.value === 6) {
+            unicode = '&#9861;';
+            return unicode;
+        }
+    }
 }
 
 //runs through the array of dice and adds the sum of its .value property
@@ -59,7 +83,7 @@ $("#generate-die").click(function () {
 $("#roll-die").click(function () {
     for (let i = 0; i < dieArray.length; i++) {
         dieArray[i].roll();
-        $("#" + i + " h1").html(dieArray[i].value);
+        $(`#${i}`).html(dieArray[i].dieFace());
     }
 });
 
